@@ -1,0 +1,100 @@
+"""
+NAME               : RISHI PRASAD R
+DEPT & CLASS       : EEE, S3E1
+BATCH              : CS-B2 BATCH 2
+REGISTRATION NO.   : TVE21EE104
+CLASS ROLL NO.     : 84
+PROGRAM DESCRIPTION: PASSWORD GENERATOR
+LANGUAGE OF CODE   : PYTHON 3
+DATE CREATED       : 10-12-2022
+DATE LAST MODIFIED : 10-12-2022
+
+"""
+
+import tkinter as tk
+from tkinter import *
+from tkinter import messagebox
+import random
+
+#CREATING GUI
+root=tk.Tk()
+root.title("Password Generator")
+root.geometry("800x500")
+
+#CONTROL VARIABLES
+u=IntVar()
+l=IntVar()
+ds=IntVar()
+s=IntVar()
+
+
+#FUNCTION TO GENERATE PASSWORD
+def generate():
+    entry_2.delete(0,END)
+    if(entry_1.get()==""):
+        messagebox.showwarning("warning","Please Enter the Length of Password")
+    uppercase_letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    lowercase_letters="abcdefghijklmnopqrstuvwxyz"
+    digits="0123456789"
+    special_chars="!@#$%^&*()_+-=\}{></\\"
+    incl_chars=""
+    if u.get()==True:
+        incl_chars+=uppercase_letters
+    if l.get()==True:
+        incl_chars+=lowercase_letters
+    if ds.get()==True:
+        incl_chars+=digits
+    if s.get()==True:
+        incl_chars+=special_chars
+    
+    length=int(entry_1.get())
+    password="".join(random.sample(incl_chars,length))
+    entry_2.insert(0,password)
+    messagebox.showinfo("information","Password Generated Successfully!")
+
+#FUNCTION TO COPY THE PASSWORD TO CLIPBOARD
+def clipboard():
+    root.clipboard_clear()
+    root.clipboard_append(entry_2.get())
+    messagebox.showinfo("information","Succesfully copied to clipboard!")
+
+
+#LABEL FRAME FOR INPUT      
+lf1=LabelFrame(root,text="Enter the length of password")
+lf1.pack(pady=20)
+
+
+#CREATING ENTRY BOX TO ENTER THE SIZE OF PASSWORD
+entry_1=Entry(lf1,font=("Times New Roman",20))
+entry_1.pack(pady=20,padx=20)
+
+#MULTIPLE OPTIONS FOR PASSWORD GENERATION
+label=Label(root,font=("Helvetica bold",10),text="WHICH ALL CHARACTERS WOULD YOU LIKE TO CHOOSE?")
+label.pack()
+a=Checkbutton(root,text="Uppercase Letters",variable=u).pack()
+b=Checkbutton(root,text="Lowercase Letters",variable=l).pack()
+c=Checkbutton(root,text="Digits",variable=ds).pack()
+d=Checkbutton(root,text="Special Characters",variable=s).pack()
+
+#LABEL FRAME FOR OUTPUT
+lf2=LabelFrame(root,text="Password Generated")
+lf2.pack(pady=20)
+
+#CREATING ENTRY BOX FOR THE RETURNED PASSWORD (TO EASILY COPY IT)
+entry_2=Entry(lf2,text="",font=("Times New Roman",20),bd=0,bg="systembuttonface")
+entry_2.pack(pady=20,padx=20)
+
+#CREATING FRAME FOR BUTTONS
+bf=Frame(root)
+bf.pack(pady=20)
+
+#CREATING THE BUTTONS
+b1=Button(bf,text="Generate Password",command=generate)
+b1.grid(row=0,column=0,padx=10)
+
+b2=Button(bf,text="Copy to Clipboard",command=clipboard)
+b2.grid(row=0,column=1,padx=10)
+
+
+root.mainloop()
+
